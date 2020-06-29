@@ -1,0 +1,11 @@
+{
+  "files/jmxremote.access": "a32198ddc21d5db4ff9261c850f5489c",
+  "files/jmxremote.password": "ee58785d55b4e26ea8df110e0aa9394a",
+  "files/tomcat-users6.xml": "816b6ed7f9aabb220ddc22daf24d2119",
+  "files/tomcat-users7.xml": "c125a9b08dcb6ce7cc05b0264ec0b086",
+  "files/tomcat6.conf": "2a1f15e6da9a19757c0fca391510959e",
+  "files/tomcat7.conf": "f4b020dc453c745a1b67963032815722",
+  "manifests/init.pp": "0f3244d9758e616fb13623e719968683",
+  "metadata.json": "972fb537585721429453d77076ab74ac",
+  "tests/init.pp": "a9408332c34a7c3dba7fb836a1549188"
+}

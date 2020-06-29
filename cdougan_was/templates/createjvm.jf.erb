@@ -1,0 +1,6 @@
+servername="<%= @server_name %>"
+cell_name="<%= @cell_name %>"
+node_name="<%= @node_name %>"
+AdminTask.createApplicationServer(node_name, '[-name <%= @server_name %> -templateName default -genUniquePorts true ]')
+AdminConfig.save()
+

@@ -1,0 +1,8 @@
+umask 022
+export TOP=<%= @install_path %>/MDMCE
+export PERL5LIB=<%= @install_path %>/MDMCE/bin/perllib 
+export PATH=<%= @install_path %>/WebSphere/AppServer/java_1.7.1_64/bin:$PATH
+export LANG=en_US
+export PATH=<%= @db2_file %>/bin:$PATH
+. /home/db2inst1/sqllib/db2profile
+

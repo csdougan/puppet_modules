@@ -1,0 +1,13 @@
+{
+  "name": "cdougan-cdougan_websphere_mdm_pim",
+  "version": "1.0.12",
+  "author": "cdougan",
+  "summary": "Installs Websphere AS ND, and MDM CE for PIM",
+  "license": "Apache 2.0",
+  "source": "https://abc-wscm-sourcerepo.somehost.co.uk/projects/A0470-PUP/repos/cdougan-cdougan_websphere_mdm_pim/browse",
+  "project_page": "https://abc-wscm-sourcerepo.somehost.co.uk/projects/A0470-PUP/repos/cdougan-cdougan_websphere_mdm_pim/browse",
+  "issues_url": "https://abc-wscm-sourcerepo.somehost.co.uk/projects/A0470-PUP/repos/cdougan-cdougan_websphere_mdm_pim/browse",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}

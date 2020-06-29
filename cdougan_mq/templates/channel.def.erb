@@ -1,0 +1,30 @@
+DEFINE CHANNEL(<%= @mq_channel_main %>) +        
+       CHLTYPE(SVRCONN) +
+       COMPHDR(NONE) +                           
+       COMPMSG(NONE) +
+       HBINT(300) +                              
+       KAINT(AUTO) +
+       MAXINST(90) +                             
+       MAXINSTC(90) +
+       MAXMSGL(4194304) +                        
+       MCAUSER('<%= @was_user %>') +
+       MONCHL(QMGR) +                                                    
+       SHARECNV(10) +
+       SSLCAUTH(REQUIRED) +                      
+       TRPTYPE(TCP) +
+       REPLACE;
+DEFINE CHANNEL(<%= @mq_channel_dir %>) +        
+       CHLTYPE(SVRCONN) +
+       COMPHDR(NONE) +                           
+       COMPMSG(NONE) +
+       HBINT(300) +                              
+       KAINT(AUTO) +
+       MAXINST(90) +                             
+       MAXINSTC(90) +
+       MAXMSGL(4194304) +                        
+       MCAUSER('<%= @was_user %>') +
+       MONCHL(QMGR) +                                                    
+       SHARECNV(10) +
+       SSLCAUTH(REQUIRED) +                      
+       TRPTYPE(TCP) +
+       REPLACE;

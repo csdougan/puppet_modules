@@ -1,0 +1,21 @@
+#!/bin/sh
+#
+# /etc/rc.d/init.d/oracle
+# chkconfig: 2345 90 2
+# Description: Starts and stops the Oracle database and listeners
+case "$1" in
+  start)
+        /bin/su - oracle /home/oracle/scripts/S01orastartup && touch /var/lock/subsys/oracle
+        ;;
+  stop)
+        /bin/su - oracle /home/oracle/scripts/K02orashutdown && rm -rf /var/lock/subsys/oracle
+        ;;
+  restart)
+        /bin/su - oracle /home/oracle/scripts/K02orashutdown && rm -rf /var/lock/subsys/oracle
+        /bin/su - oracle /home/oracle/scripts/S01orastartup && touch /var/lock/subsys/oracle
+        ;;
+  *)
+        echo "Usage: oracle {start|stop|restart}"
+        exit 1
+esac
+

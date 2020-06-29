@@ -1,0 +1,69 @@
+define cdougan_was::resources::was_fix_install (  
+  $imcl                = undef,
+  $nexus_path          = undef,
+  $nexus_repo          = undef,
+  $wasuser             = undef,
+  $wasgroup            = undef,
+  $was_version         = undef,
+  $was_edition         = undef,
+  $software_dir        = undef,
+  $was_install_path    = undef,
+  $feature_list        = undef,
+
+) {
+  $was_extract_path    = "${software_dir}/WAS-FP-${was_version}"
+  $archive_file        = "FP-${was_version}.zip"
+  $nexus_was_path      = "${nexus_path}/${nexus_repo}/content/IBM/WAS/FP/"
+  $log_dir             = "${software_dir}/logs"
+  $was_version_array    = split($was_version, '[.]')
+
+  if $feature_list != undef {
+    $was_features = ",${feature_list}"
+  } else {
+    $was_features = ""
+  } 
+
+  if size($was_version_array) > 2 {
+    $was_product_name = "com.ibm.websphere.${was_edition}.v${was_version_array[0]}${was_version_array[1]}"
+  } else {
+    $was_product_name = "com.ibm.websphere.${was_edition}.v${was_version_array[0]}"
+  }
+
+  if $was_edition == "BASE" {
+    if ($was_version_array[3] < 12) {
+      $was_fixpack_version_file = "WebSphere_Application_Server_-_Base_v${was_version_array[0]}.${was_version_array[1]}.${was_version_array[2]}_Fix_Pack.fxtag"
+    } else {
+      $was_fixpack_version_file = "ibm.com_WebSphere_Application_Server_-_Base-${was_version_array[0]}.${was_version_array[1]}.${was_version_array[2]}.${was_version_array[3]}.swidtag"
+    }
+    } else {
+    $was_fixpack_version_file = "WebSphere_Application_Server_Network_Deployment_v${was_version_array[0]}.${was_version_array[1]}.${was_version_array[2]}_Fix_Pack.fxtag"
+  } 
+
+  file {"${was_extract_path}":
+    ensure          => directory,
+    owner           => "${wasuser}",
+    group           => "${wasgroup}",
+  }
+
+  archive { "${archive_file}":
+    path            => "${software_dir}/${archive_file}",
+    source          => "${nexus_was_path}/${was_version}/${archive_file}",
+    extract         => true,
+    extract_path    => "${was_extract_path}",
+    creates         => "${was_install_path}/properties/version/${was_fixpack_version_file}",
+    cleanup         => true,
+    user            => "${wasuser}",
+    group           => "${wasgroup}",
+    require         => File["${was_extract_path}"],
+  }
+
+  exec {"install_was ${was_product_name} ${was_version}":
+  	command		      => "${imcl} install ${was_product_name}${was_features} -repositories ${was_extract_path} -installationDirectory ${was_install_path} -acceptLicense -log ${log_dir}/was_${was_version}_fixpack_install.log; chown -R ${wasuser}:${wasgroup} ${was_install_path}",
+    path            => '/bin:/usr/bin:/sbin:/usr/sbin',
+    creates         => ["${log_dir}/was_${was_version}_fixpack_install.log",
+                        "${was_install_path}/properties/version/${was_fixpack_version_file}"],
+    timeout         => 1800,
+    require         => Archive["${archive_file}"],
+  }
+}
+

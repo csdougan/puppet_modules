@@ -1,0 +1,2 @@
+ alter qmgr CONNAUTH('') chlauth(disabled);
+ refresh security;

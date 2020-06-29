@@ -1,0 +1,30 @@
+/data/log/mongod.log {
+   # use the user mongod
+   su mongod mongod
+   daily
+
+   # allow up-to 14 files
+   rotate 14
+   compress
+
+   # stick a yyyymmdd on the end of rotated files
+   dateext
+
+   missingok
+   notifempty
+   sharedscripts
+
+   # after rotation, create a new mongod.log file
+   create 640 mongod mongod
+
+   postrotate
+       # signal mongo to rotate. Since this runs AFTER rotation, mongo will rename the empty mongod.log file just created above
+       # to give it a mongo rotation name which includes the date and time
+       /bin/kill -SIGUSR1 $(cat /var/run/mongodb/mongod.pid)
+
+       # now we delete the empty mongo rotation file just created by mongo when we signalled the rotation. We don't need this because
+       # we manually zipped up the original file when this rotate task started and when we signalled mongo to rotate, it simply took
+       # the empty mongod.log we created after we copied and zipped the original
+       rm /data/log/mongod.log.????-??-??T??-??-??
+   endscript
+

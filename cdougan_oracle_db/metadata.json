@@ -1,0 +1,17 @@
+{
+  "name": "cdougan-cdougan_oracle_db",
+  "version": "0.1.27",
+  "author": "cdougan",
+  "summary": "Installs Oracle DB server",
+  "license": "Apache 2.0",
+  "source": "ssh://git@abc-githost.somehost.co.uk:7999/pup/cdougan-cdougan_oracle_db.git",
+  "project_page": "https://abc-githost.somehost.co.uk/projects/PUP/repos/cdougan-cdougan_oracle_db",
+  "issues_url": "https://abc-githost.somehost.co.uk/projects/PUP/repos/cdougan-cdougan_oracle_db/browse",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "data_provider": null
+}

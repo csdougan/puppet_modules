@@ -1,0 +1,41 @@
+#!/bin/bash
+hostname=$(hostname -s)
+
+if [[ $# -eq 0 ]]; then
+	echo "No Arguments supplied.   Please run as follows - "
+	echo "addprofile <layer> <profile> <node number>"
+	echo "i.e. -"
+	echo "addprofile SIT/PRF/PDR/PRD LegacyZ4Apps/LegacyZ4HHTApps 1/2"
+	echo ""
+	exit 1
+fi
+
+layer=$1
+profile=$2
+number=$3	
+
+if [[ $# -eq 2 ]]; then
+	number=1
+fi
+
+profilename="${layer}1WSPF-${profile}"
+profilepath="/data/WebSphere/profiles/${profilename}"
+templatepath="/data/WebSphere/AppServer/profileTemplates/default"
+servername="${layer}1WSMB-${profile}${number}"
+cellname="${layer}1WSCE-${profile}"
+nodename="${layer}1WSND-${profile}${servernumber}${number}"
+
+/data/WebSphere/AppServer/bin/manageprofiles.sh -create -profileName ${profilename} -profilePath ${profilepath} -templatePath ${templatepath} -serverName ${servername} -cellName ${cellname} -nodeName ${nodename} -hostName ${hostname} 
+
+if [[ $? -eq 0 ]]; then
+	/data/WebSphere/profiles/${profilename}/bin/startServer.sh ${servername}
+	if [[ $? -eq 0 ]]; then
+		exit 0
+	else
+		echo "Failed to start server!!!"
+		exit 1
+	fi
+else
+	echo "Failed to create profiles!!!"
+	exit 1
+fi

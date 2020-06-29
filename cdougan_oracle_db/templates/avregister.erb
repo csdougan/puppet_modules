@@ -1,0 +1,249 @@
+#!/bin/sh
+#
+# avregister (Avamar Client Registration)
+#
+# Use:
+#    This script should be run to establish communication with the DPN MC Server.
+#    Neither avtar nor avagent will function until properly registered with the MC server.
+#
+# Tasks:
+#    a. Find/Obtain BASEDIR (/usr/local/avamar)
+#    b. Obtain MCSADDR
+#    c. Obtain DPNDOMAIN
+#    d. Obtain UAL (User Access List)
+#    e. Initialize avagent with new MCSADDR, DPNDOMAIN and UAL
+#        (avagent.d does stop possible previous avagent and restart avagent)
+#
+
+VERSION="4"
+
+#
+# find what platform we are on
+#
+platform=`uname -s`
+
+if [ "SunOS" != "$platform" ]; then
+  read_single_char_option="-n 1"
+fi
+
+# We need an "echo" that interprets escape sequences such as "\c"
+# meaning "no newline".  Solaris' /bin/echo does this by default.
+# GNU/Linux /bin/echo requires the -e option to enable this mode.
+# Unfortunately Solaris "/bin/echo -e" prints "-e", so we must figure
+# out which to use in each case.
+#
+if [ "`/bin/echo '\c'`" = "" ]; then
+   ECHO_ESC="/bin/echo"
+else
+   ECHO_ESC="/bin/echo -e"
+fi
+
+CLUSTER_CLIENT="false"
+
+# Find init.d directory
+#  (contains avagent script)
+if [ "${CLUSTER_CLIENT}" != "true" ]; then
+  INITDIR=
+  if [ -d /etc/rc.d/init.d ]; then
+    INITDIR=/etc/rc.d/init.d
+  elif [ -d /etc/init.d ]; then
+    INITDIR=/etc/init.d
+  fi
+fi
+
+echo
+echo "=== Client Registration and Activation"
+echo "This script will register and activate the client with the Administrator server."
+
+# Find Avamar client installation
+BASEDIR=
+
+if [ "${CLUSTER_CLIENT}" != "true" ]; then
+  if [ "${BASEDIR}" = "" ]; then
+    if [ "${platform}" = "Linux" ] && [ ! -e /etc/debian_version ]; then
+      BASEDIR=`rpm AvamarClient -q --queryformat '%{INSTALLPREFIX}' 2>/dev/null`
+      if [ "$BASEDIR" = "" ]; then
+          BASEDIR=`rpm AvamarClient -q --queryformat '%{INSTPREFIXES}' 2>/dev/null`
+      fi
+      if [ "${BASEDIR}" = "(none)" ]; then
+          BASEDIR="";
+      fi
+    else
+      if [ "${platform}" = "SunOS" ]; then
+        BASEDIR_PREFIX=`pkginfo -r AVMRclnt`
+        if [ "${BASEDIR_PREFIX}" != "" ]; then
+          BASEDIR="${BASEDIR_PREFIX}/AVMRclnt"
+        fi
+      elif [ "${platform}" = "FreeBSD" ]; then
+        BASEDIR_PREFIX=`pkg_info -pq AvamarClient | head -1 | sed -e "s/@cwd //g"`
+        if [ "${BASEDIR_PREFIX}" != "" ]; then
+          BASEDIR="${BASEDIR_PREFIX}/avamar"
+        fi
+      elif [ "${platform}" = "HP-UX" ]; then
+        BASEDIR=`swlist -v hpuxclnt | grep location | head -1 | awk '{print $2}'`
+      fi
+      if [ "${BASEDIR}" = "" ] || [ ! -d "${BASEDIR}" ]; then
+        if [ -x "${INITDIR}/avagent" ]; then
+          BASEDIR=`grep "^BASEDIR=" ${INITDIR}/avagent | sed -e "s/^BASEDIR=\(.*\)/\1/"`
+        fi
+      fi
+    fi
+  fi
+else
+  BIN_PATH="`dirname \"$0\"`"              # relative
+  BIN_PATH="`( cd \"${BIN_PATH}\" && pwd )`"  # absolutized and normalized
+  if [ -z "${BIN_PATH}" ] ; then
+    exit 1  # fail
+  fi
+  BASEDIR=`dirname ${BIN_PATH}`
+  GROUP=`basename ${BASEDIR}`
+  echo
+  echo "Using ${BASEDIR}/var as the var dir for the group ${GROUP} avagent"
+  echo
+fi
+
+if [ "${BASEDIR}" = "" ] || [ ! -d "${BASEDIR}" ]; then
+  if [ -x "${INITDIR}/avagent" ]; then
+    BASEDIR=`grep "^BASEDIR=" ${INITDIR}/avagent | sed -e "s/^BASEDIR=\(.*\)/\1/"`
+  elif [ -x "/usr/local/avamar/etc/avagent.d" ]; then
+    BASEDIR="/usr/local/avamar";
+  elif [ -x "/opt/AVMRclnt/etc/avagent.d" ]; then
+    BASEDIR="/opt/AVMRclnt";
+  fi
+  
+  echo
+  $ECHO_ESC "Enter the base directory of the AvamarClient installation [${BASEDIR}]: \c"
+  read installdir
+  if [ "${installdir}" ]; then
+    BASEDIR="${installdir}"
+  fi
+  echo "using BASEDIR=${BASEDIR}"
+fi
+if [ ! -d "${BASEDIR}" ] || [ ! -x "${BASEDIR}/etc/avagent.d" ]; then
+  echo "Error: Avamar Client Installation not found.  Aborting."
+  exit 1
+fi
+
+UNREGISTERED=1
+MCSADDR=
+while [ ${UNREGISTERED} -ne 0 ]
+do
+  ADDPROB=1
+  while [ "$ADDPROB" -gt "0" ];
+  do
+    MCSADDR=
+    echo
+    while [ "${MCSADDR}" = "" ]
+    do
+      $ECHO_ESC "Enter the Administrator server address (DNS text name or numeric IP address, DNS name preferred): \c"
+      #read MCSADDR
+      MCSADDR="<%= @avamarip %>"
+
+      if [ "${MCSADDR}" = "" ];
+      then
+        $ECHO_ESC "No server address was entered."
+        $ECHO_ESC "Enter 'x' to exit the address setup, or any other key to continue: \c"
+        read $read_single_char_option YESNO
+	echo
+        if [ "${YESNO}" = "x" ] || [ "${YESNO}" = "X" ]; then
+          exit 1
+        fi;
+      fi;
+    done
+
+    ADDPROB=0
+    if [ "${platform}" = "Linux" ]; then
+        /bin/ping -c 1 -W 10 $MCSADDR > /dev/null
+    # Try IPV6 ping if IPV4 ping fails 
+        if [ $? -ne 0 ] ; then
+            echo "ping failed... Trying ping6..."
+            /bin/ping6 -c 1 -W 10 $MCSADDR > /dev/null
+            ADDPROB=$?
+        fi
+    fi
+    if [ "$ADDPROB" -gt "0" ];
+    then
+      echo
+      echo "There was a problem pinging the Administrator server address."
+      echo "The network configuration may be incorrect."
+      echo "It is recommended that you exit this setup and check the network configuration."
+      $ECHO_ESC "Exit the setup(x), override ping check(o), or retry(any key): \c"
+      read $read_single_char_option CONTCHOICE
+      echo
+
+      if [ "$CONTCHOICE" = "x" ] || [ "$CONTCHOICE" = "X" ];
+      then
+        exit 1
+      fi
+      if [ "$CONTCHOICE" = "o" ] || [ "$CONTCHOICE" = "O" ];
+      then
+        ADDPROB=0
+      else
+        ADDPROB=1
+      fi
+    fi
+  done
+
+  DPNDOMAIN=clients
+  echo
+  $ECHO_ESC "Enter the Avamar server domain [${DPNDOMAIN}]: \c"
+  # Bug 22802 MHR@2010/12/07 remove the -r option
+  #read dpndomain
+  dpndomain="/Oracle"
+  if [ "${dpndomain}" != "" ]; then
+    dpndomain=`echo $dpndomain | sed 's/^\/*//'`    # remove leading "/"s
+    dpndomain=`echo $dpndomain | sed 's/\/*$//'`    # remove tailing "/"s
+    if [ "${dpndomain}" = "" ]; then
+      dpndomain="/";                                # reset "/////..." to "/"
+    fi;
+    DPNDOMAIN=${dpndomain}
+  fi
+
+  if [ "${CLUSTER_CLIENT}" = "true" ]; then
+    HOSTNAME=`/usr/bin/hostname`
+    resource_list=`hagrp -resources ${GROUP}`
+    for resource in $resource_list;
+    do 
+      type=`hares -value $resource Type`
+      if [ "$type" = "Application" ]; then 
+        start_program=""
+        start_program=`hares -value $resource StartProgram | grep "cluster/${GROUP}/etc/start.sh"`
+        if [ $? -eq 0 -a "$start_program" != "" ]; then
+          SERVICEGROUP=$resource;
+          break;
+        fi;
+      fi;
+    done;
+
+    SERVICESTATE=`/opt/VRTS/bin/hares -state ${SERVICEGROUP} -sys ${HOSTNAME}`
+
+    if [ "${SERVICESTATE}" = "ONLINE" ]; then
+      /opt/VRTS/bin/hares -offline ${SERVICEGROUP} -sys ${HOSTNAME}
+    fi
+
+    # Register with MCS
+    ${BASEDIR}/etc/avagent.d register ${MCSADDR} ${DPNDOMAIN}
+    UNREGISTERED=$?
+
+    if [ "${SERVICESTATE}" = "ONLINE" ]; then
+      /opt/VRTS/bin/hares -online ${SERVICEGROUP} -sys ${HOSTNAME}
+    fi 
+  else
+    # Register with MCS
+    ${BASEDIR}/etc/avagent.d register ${MCSADDR} ${DPNDOMAIN}
+    UNREGISTERED=$?
+  fi
+done
+
+if [ "${CLUSTER_CLIENT}" = "true" ]; then
+  if [ "${SERVICESTATE}" = "OFFLINE" ]; then
+    sleep 3
+    ${BASEDIR}/etc/avagent.d stop
+  fi
+fi
+if [ "${CLUSTER_CLIENT}" = "rac" ]; then
+    ${BASEDIR}/etc/avagent.d stop
+    ${BASEDIR}/var/start.sh
+fi
+
+echo "Registration Complete."

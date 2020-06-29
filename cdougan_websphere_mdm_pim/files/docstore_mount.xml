@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<mnts>
+    <mnt doc_path="/public_html/" real_path="$supplier_base_dir/" inbound="yes" />
+    <mnt doc_path="/ftp/" real_path="$supplier_ftp_dir/" inbound="yes" />
+</mnts>
+

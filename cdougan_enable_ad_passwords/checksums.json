@@ -1,0 +1,11 @@
+{
+  "files/abc-password-auth": "c64762b29547632c40c4bb3e36520abc",
+  "files/abc-system-auth": "23b80fb8036cc9c30c6f5facad6b58cc",
+  "manifests/init.pp": "2b84b44d80375ab77743d815df7c6a98",
+  "metadata.json": "5639e1c51c27100f42ac1cf33bfdfd01",
+  "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+  "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+  "templates/krb5.conf.erb": "2229ef16afd6ab4551ead5f6984ebaaf",
+  "tests/init.pp": "02044c206aada0d418a8c901b66b6e05",
+  "tests/abc.pp": "b9a44cc305165dd6af9604ebc2751414"
+}

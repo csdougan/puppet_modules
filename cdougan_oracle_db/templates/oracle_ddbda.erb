@@ -1,0 +1,222 @@
+# #############################################################################
+#
+# oracle_ddbda.cfg
+#
+# All rights reserved.
+#
+# database app agent 3.0
+#
+# This template is designed to help users configure Oracle RMAN backup and
+# restore operations with database app agent. Additional parameters may be
+# added to the file when required.
+#
+# Check the product administration guide for a complete list of all the
+# supported parameters and rules for editing the configuration file.
+#
+# Make a copy of this file before making any modifications.
+# To enable a parameter, uncomment or add the parameter in the file and
+# specify its value.
+#
+# #############################################################################
+
+
+# #############################################################################
+#  MANDATORY PARAMETERS (BACKUP AND RESTORE)
+# #############################################################################
+
+
+DDBOOST_USER = <%= @ddboost_user %>
+DEVICE_HOST = <%= @ddboost_host %>
+DEVICE_PATH = <%= @ddboost_path %>
+
+
+  # DDBOOST_USER:          Specifies the name of the DD Boost user as defined
+  #                        on the Data Domain server that is specified in
+  #                        DEVICE_HOST.
+  # DEVICE_HOST:           Specifies the Data Domain server hostname to use for
+  #                        backups and restores.
+  # DEVICE_PATH:           Specifies the name of the Data Domain storage unit
+  #                        or a top-level directory within the storage unit to
+  #                        be used in the DD Boost backup or restore.
+
+
+# #############################################################################
+#  OPTIONAL PARAMETERS (BACKUP AND RESTORE)
+# #############################################################################
+
+
+# CLIENT =
+# DDBOOST_FC =
+# DEVICE_FC_SERVICE =
+# LOCKBOX_PATH =
+
+
+  # CLIENT:                Specifies the hostname of the local client that will
+  #                        be used to store the save sets and index entries.
+  #                        Set this parameter to the virtual hostname in a
+  #                        cluster or to the same hostname for all nodes in an
+  #                        Oracle RAC environment.
+  # DDBOOST_FC:            FALSE (default) or TRUE. A TRUE setting specifies to
+  #                        use a Fibre Channel (FC) connection for the data
+  #                        transfer. A FALSE setting or no setting specifies to
+  #                        use a TCP/IP connection.
+  # DEVICE_FC_SERVICE:     Mandatory when DDBOOST_FC is set to TRUE. Specifies
+  #                        the name of the FC service on the Data Domain server.
+  # LOCKBOX_PATH:          Specifies the pathname of the directory location of
+  #                        the lockbox that contains the DD Boost user password.
+
+
+# ##############################################################################
+# OPTIONAL PARAMETERS (RESTORE ONLY)
+# ##############################################################################
+
+
+# DDBOOST_COMPRESSED_RESTORE =
+# DDBOOST_FC_SECONDARY =
+# DDBOOST_USER_SECONDARY =
+# DEVICE_FC_SERVICE_SECONDARY =
+# DEVICE_HOST_SECONDARY =
+# DEVICE_PATH_SECONDARY =
+
+
+  # DDBOOST_COMPRESSED_RESTORE:  FALSE (default) or TRUE. A TRUE setting specifies to
+  #                              restore the backup content in compressed form from the
+  #                              Data Domain system to the application host by using the
+  #                              DD Boost workflow. A FALSE setting or no setting
+  #                              specifies to restore the backup content without
+  #                              compression.
+  # DDBOOST_FC_SECONDARY:        FALSE (default) or TRUE. A TRUE setting specifies to
+  #                              use a Fibre Channel (FC) connection for the data
+  #                              transfer from a secondary Data Domain server. A FALSE
+  #                              setting or no setting specifies to use a TCP/IP
+  #                              connection.
+  # DDBOOST_USER_SECONDARY:      Specifies the name of the DD Boost user as defined on
+  #                              the Data Domain server that is specified in
+  #                              DEVICE_HOST_SECONDARY.
+  # DEVICE_FC_SERVICE_SECONDARY: Mandatory when DDBOOST_FC_SECONDARY is set to TRUE.
+  #                              Specifies the name of the FC service on the Data Domain
+  #                              server specified by DEVICE_HOST_SECONDARY.
+  # DEVICE_HOST_SECONDARY:       Specifies the hostname of the Data Domain server
+  #                              where backups from the primary Data Domain server
+  #                              are replicated. This host will only be used for
+  #                              failover during restore operations.
+  # DEVICE_PATH_SECONDARY:       Specifies the name of the Data Domain storage unit
+  #                              or a top-level directory within the storage unit
+  #                              on the Data Domain server specifed by
+  #                              DEVICE_HOST_SECONDARY, which has been replicated from
+  #                              the primary Data Domain server. The specified storage
+  #                              unit will be used in the DD Boost restore.
+
+
+
+# #############################################################################
+#  OPTIONAL PARAMETERS (PROTECTPOINT BACKUP AND RESTORE)
+# #############################################################################
+
+
+# DDVDISK_USER =
+# DEVICE_POOL =
+
+  # DDVDISK_USER:          Specifies the vdisk username on the primary Data Domain
+  #                        system. Mandatory only if the Data Domain user that
+  #                        connects to the Data Domain vdisk services is different
+  #                        from the DD Boost user.
+  # DEVICE_POOL:           Specifies the name of the Data Domain vdisk device pool.
+  #                        The database app agent uses this parameter for backup
+  #                        and restore LUN validation purposes. If this parameter
+  #                        is set, then the database app agent confirms that the
+  #                        backup and restore LUNs used for ProtectPoint operations
+  #                        are included in the device pool.
+
+
+# #############################################################################
+#  OPTIONAL PARAMETERS (PROTECTPOINT RESTORE ONLY)
+# #############################################################################
+
+
+# DDVDISK_USER_SECONDARY =
+# DEVICE_POOL_SECONDARY =
+# RESTORE_TYPE_ORDER =
+# SYMM_SNAP_REMOTE =
+
+  # DDVDISK_USER_SECONDARY: Specifies the DD vdisk username that was specified during
+  #                         the creation of the replication vdisk device
+  #                         pool on the secondary Data Domain system. Mandatory only
+  #                         when both of the following conditions are true:
+  #                         - DEVICE_HOST_SECONDARY is set for a restore from the
+  #                           secondary Data Domain system.
+  #                         - The DD vdisk username is different from the DD Boost
+  #                           username specified in DD_BOOST_USER_SECONDARY.
+  # DEVICE_POOL_SECONDARY:  Specifies the name of the DD vdisk (Mtree replication)
+  #                         device pool on the secondary Data Domain
+  #                         system. Mandatory only when both of the following
+  #                         conditions are true:
+  #                         - DEVICE_HOST_SECONDARY is set for a restore from the
+  #                           secondary Data Domain system.
+  #                         - The replication pool name is different from the source
+  #                           pool name.
+  # RESTORE_TYPE_ORDER:     PIT (default) or rollback. Specifies the type of
+  #                         ProtectPoint restore to perform. The database app agent
+  #                         performs a point-in-time restore by default. For a
+  #                         restore to a VMAX system, you can also specify a rollback
+  #                         restore, which is a LUN-level restore. Note: A ProtectPoint
+  #                         with RecoverPoint restore to an XtremIO system does not
+  #                         support the rollback value.
+  # SYMM_SNAP_REMOTE:       FALSE (default) or TRUE. Specifies whether the
+  #                         ProtectPoint backup is an SRDF based backup.
+
+
+# #############################################################################
+#  OPTIONAL PARAMETERS (PROTECTPOINT WITH RECOVERPOINT BACKUP AND RESTORE)
+# #############################################################################
+
+
+# RP_MGMT_HOST =
+# RP_USER =
+
+  # RP_MGMT_HOST:          Specifies the hostname or IP address of the
+  #                        RecoverPoint management host. Mandatory for
+  #                        ProtectPoint with RecoverPoint workflows.
+  # RP_USER:               Specifies the RecoverPoint username. Mandatory for
+  #                        ProtectPoint with RecoverPoint workflows.
+
+
+# #############################################################################
+#  OPTIONAL PARAMETERS (PROTECTPOINT WITH RECOVERPOINT RESTORE ONLY)
+# #############################################################################
+
+
+# RESTORE_DEVICE_POOL =
+# RESTORE_DEVICE_POOL_SECONDARY =
+# RESTORE_DEVICE_GROUP =
+
+  # RESTORE_DEVICE_POOL    Specifies the name of the vdisk device pool where the
+  #                        restore LUNs are provided. For ProtectPoint with
+  #                        RecoverPoint, this parameter is required to find the
+  #                        restore LUNs. Mandatory for a ProtectPoint with
+  #                        RecoverPoint restore.
+  # RESTORE_DEVICE_POOL_SECONDARY   Specifies the name of the vdisk device pool
+  #                        where the restore LUNs are provided on the secondary
+  #                        Data Domain system. Mandatory when DEVICE_HOST_SECONDARY
+  #                        is set for a restore from the secondary Data Domain
+  #                        and the replication pool is different from the source
+  #                        pool name.
+  # RESTORE_DEVICE_GROUP   Specifies the vdisk device group in the vdisk pool
+  #                        (RESTORE_DEVICE_POOL) where restore LUNs are provided.
+  #                        Mandatory for a ProtectPoint with RecoverPoint restore.
+
+
+# #############################################################################
+#  DEBUG PARAMETERS (for troubleshooting)
+# #############################################################################
+
+
+# DEBUG_LEVEL =
+# DIAGNOSTIC_DEST =
+
+
+  # DEBUG_LEVEL:            0-9. Specifies the level of debug messages to write
+  #                         to the debug log file.
+  # DIAGNOSTIC_DEST:        /opt/ddbda/logs (default).
+  #                         Specifies the pathname of the directory location of
+  #                         the debug log file.

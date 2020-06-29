@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<agent-input>
+  <variables>
+    <variable name='sharedLocation' value='<%= @im_filesystem %>/IMShared'/>
+  </variables>
+  <server>
+    <repository location='<%= @mdm_extract_path %>/CollaborationServer/disk1'/>
+  </server>
+  <profile id='IBM InfoSphere Master Data Management' installLocation='<%= @install_path %>/MDMCE'>
+    <data key='cic.selector.arch' value='x86_64'/>
+    <data key='user.mdm.edition.offering.id' value='com.ibm.mdm.collaborative'/>
+    <data key='user.L2.mdm.ws.admin.client,com.ibm.mdm.collaborative' value='com.ibm.ws.admin.client_8.5.0.jar'/>
+    <data key='user.L2.mdm.ws.webservices.thinclient,com.ibm.mdm.collaborative' value='com.ibm.ws.webservices.thinclient_8.5.0.jar'/>
+    <data key='user.L2.mdm.ws.security.crypto,com.ibm.mdm.collaborative' value='com.ibm.ws.security.crypto.jar'/>
+    <data key='user.L2.data.initialized,com.ibm.mdm.collaborative' value='true'/>
+    <data key='user.typical.install,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.typical.workstation.install,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.L2.wb.detected,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.L2.was.detected,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.L2.db2.detected,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.skipErrorMessageUserData,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.L2.mdm.feature.list,com.ibm.mdm.collaborative' value='com.ibm.im.mdm.db.feature,'/>
+    <data key='user.db.auth.native,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.db.host,com.ibm.mdm.collaborative' value='<%= @db2_database_hostname %>'/>
+    <data key='user.db.type,com.ibm.mdm.collaborative' value='DB2'/>
+    <data key='user.db.schema,com.ibm.mdm.collaborative' value='<%= @db2_schema_name %>'/>
+    <data key='user.db.ssl.enabled,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.db.password,com.ibm.mdm.collaborative' value='<%= @db2_database_password %>'/>
+    <data key='user.db.ssl.store.type,com.ibm.mdm.collaborative' value='none'/>
+    <data key='user.db.home,com.ibm.mdm.collaborative' value='/home/db2inst1/sqllib'/>
+    <data key='user.L2.db.home,com.ibm.mdm.collaborative' value='/home/db2inst1/sqllib'/>
+    <data key='user.L2.oracle.rac,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.L1.was.home,com.ibm.mdm.collaborative' value='<%= @was_install_location %>'/>
+    <data key='user.oracle.sid,com.ibm.mdm.collaborative' value='mdm_sid'/>
+    <data key='user.db.name.remote,com.ibm.mdm.collaborative' value='<%= @db2_database_name %>'/>
+    <data key='user.db.user,com.ibm.mdm.collaborative' value='<%= @db2_database_user %>'/>
+    <data key='user.db.port,com.ibm.mdm.collaborative' value='<%= @db2_database_port %>'/>
+    <data key='user.L2.mdm.db.connection.skip.test,com.ibm.mdm.collaborative' value='<%= @db2_skip_connection_test %>'/>
+    <data key='user.db.name,com.ibm.mdm.collaborative' value='<%= @db2_database_name %>'/>
+    <data key='user.dbManualUserData,com.ibm.mdm.collaborative' value='<%= @db2_manual_user_data %>'/>
+    <data key='user.db2.home,com.ibm.mdm.collaborative' value='/home/db2inst1/sqllib'/>
+    <data key='user.tns.name,com.ibm.mdm.collaborative' value='<%= @db2_database_name %>'/>
+    <data key='user.was.cluster,com.ibm.mdm.collaborative' value='None'/>
+    <data key='user.was.user,com.ibm.mdm.collaborative' value='<%= @was_user %>'/>
+    <data key='user.was.profile.home,com.ibm.mdm.collaborative' value='<%= @dmgr_profile_path %>'/>
+    <data key='user.deploy.host,com.ibm.mdm.collaborative' value='<%= @hostname %>'/>
+    <data key='user.was.server.new,com.ibm.mdm.collaborative' value='<%= @server_name %>'/>
+    <data key='user.was.suppress.warning,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.new.server.checkbox,com.ibm.mdm.collaborative' value='true'/>
+    <data key='user.was.type,com.ibm.mdm.collaborative' value='<%= @was_flavour %>'/>
+    <data key='user.deploy.vHost,com.ibm.mdm.collaborative' value='mdmce_vhost'/>
+    <data key='user.was.password,com.ibm.mdm.collaborative' value='<%= @was_dmgr_pwd %>'/>
+    <data key='user.was.server,com.ibm.mdm.collaborative' value='mdmce'/>
+    <data key='user.was.cluster.flag,com.ibm.mdm.collaborative' value='false'/>
+    <data key='user.deploy.port,com.ibm.mdm.collaborative' value='8879'/>
+    <data key='user.was.cell,com.ibm.mdm.collaborative' value='<%= @cell_name %>'/>
+    <data key='user.was.node,com.ibm.mdm.collaborative' value='<%= @node_name %>'/>
+    <data key='user.ce.cache.multicast.address,com.ibm.mdm.collaborative' value='239.1.1.1'/>
+    <data key='user.ce.create.schema,com.ibm.mdm.collaborative' value='Y'/>
+    <data key='user.ce.locale,com.ibm.mdm.collaborative' value='en_US'/>
+    <data key='user.ce.http.port,com.ibm.mdm.collaborative' value='7508'/>
+    <data key='user.ce.cache.multicast.ttl,com.ibm.mdm.collaborative' value='0'/>
+    <data key='user.ce.jdk.path,com.ibm.mdm.collaborative' value='<%= @was_install_location %>/java_<%= @jdk_version %>_64'/>
+    <data key='user.ce.rmi.port,com.ibm.mdm.collaborative' value='17508'/>
+    <data key='user.ce.perl.directory,com.ibm.mdm.collaborative' value='/usr'/>
+  </profile>
+  <install>
+    <!-- IBM InfoSphere Master Data Management Collaborative Edition 11.5.0.0 -->
+    <offering profile='IBM InfoSphere Master Data Management' id='com.ibm.mdm.collaborative' version='11.5.0.FP00IF000_20151013-1213' features='com.ibm.im.mdm.db.feature'/>
+  </install>
+  <preference name='com.ibm.cic.common.core.preferences.eclipseCache' value='${sharedLocation}'/>
+</agent-input>

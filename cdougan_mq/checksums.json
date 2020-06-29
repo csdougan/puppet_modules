@@ -1,0 +1,15 @@
+{
+  "files/mq_license_status.dat": "b90a0e7b866c0faad0f5c1cf015cb6cc",
+  "files/qmgr_security": "0743ca6076c15b51561e72829ce46b93",
+  "manifests/init.pp": "7aa3c7c28f6de6ea61c2c925fa72d6b2",
+  "metadata.json": "e73a4d3220a715e520d80ab921769445",
+  "templates/channel.def.erb": "c10a86239fcb393c17e692343fcb4200",
+  "templates/chlauth.erb": "a6485d6bb399cb6028b778e578d1d8d4",
+  "templates/listener.mqsc.erb": "2bfa252bf146fe4d59772af1a133d8ac",
+  "templates/mq_security.erb": "8a7526c4a31da2725bb0e8532fe161f1",
+  "templates/queue.def.erb": "012952af57263a0f0a92607f85ce5922",
+  "templates/start_listener.mqsc.erb": "9770760bb1516fb7eaeacf4773e2cbea",
+  "templates/topic.erb": "00e6c742576fe7581d30cc22a0594014",
+  "tests/init.pp": "ae128e801557960077fc7cd9d92618a7",
+  "tests/test.pp": "1f4ddfb90b39c7a22c0f5ce72105af95"
+}

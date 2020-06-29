@@ -1,0 +1,6 @@
+DEFINE LISTENER (TCP.<%= @mq_listener_name %>) +
+	TRPTYPE(TCP) +
+	CONTROL(QMGR) +
+	PORT(1420) +
+	DESCR('Listener') +
+	REPLACE

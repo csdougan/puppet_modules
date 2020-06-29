@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#if [[ $1 == '' || $2 == '' || $3 == '' ]] ; then
+#
+#	echo "Run as $0 <DB2_DATABASENAME> <DB2_USER> <DB2_PASSWORD>"
+#else
+
+	db2 connect to <%= @db2_database_name %> user <%= @db2_database_user %> using <%= @db2_database_password %> 
+
+	# specify all sequences to be added
+	sequences[0]="ITEMIO.ITEMID_SEQ"
+	sequences[1]="ITEMIO.SUPPLIER_SEQ"
+
+	for seq in ${sequences[@]}
+	do
+
+		schemaname=$(echo $seq | cut -f1 -d'.')
+		sequencename=$(echo $seq | cut -f2 -d'.')
+
+		echo "Checking $schemaname.$sequencename..."
+		res=`db2 -x "select 'found' from syscat.sequences where seqschema = '$schemaname' and  seqname = '$sequencename'"`
+
+		if [[ $res == '' ]] ; then
+			echo "Sequence $schemaname.$sequencename does NOT exist in the database. Creating it now..."
+			db2 "create sequence $schemaname.$sequencename
+				 start with 1
+				 increment by 1
+				 minvalue 1
+				 maxvalue 999999999
+				 no cycle
+				 "
+			echo "Done creating sequence $schemaname.$sequencename."
+		else
+			echo "Do nothing: sequence $schemaname.$sequencename already exists in the database."
+		fi
+
+	done
+#fi
+

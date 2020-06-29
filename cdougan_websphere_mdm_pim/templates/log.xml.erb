@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration debug="false" xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+    <!-- basic ASYNC appender -->
+    <appender name="ASYNC" class="org.apache.log4j.AsyncAppender">
+        <appender-ref ref="DEFAULT"/>
+    </appender>
+
+    <!-- basic CONSOLE appender. This is the same as doing system.out-->
+    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Rolling FILE appender. The file will be opened and if append is true  -->
+    <!--                        it will not be truncated                       -->
+    <!--                        maxFileSize: How big before you rotate         -->
+    <!--                        maxBackupIndex: How many backups do you keep?  -->
+    <appender name="DEFAULT" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/default.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="CONTEXT" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/context.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- i18n_begin by Allis Aug 24, 2004 -->
+    <appender name="DB_EXCEP" class="org.apache.log4j.FileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/db_exception.log" />
+        <param name="Append" value="true" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+    <!-- i18n_end -->
+
+    <!-- Rolling FILE appender. The file will be opened and if append is true  -->
+    <!--                        it will not be truncated                       -->
+    <!--                        maxFileSize: How big before you rotate         -->
+    <!--                        maxBackupIndex: How many backups do you keep?  -->
+    <appender name="DB" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/db.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <!-- Rolling FILE appender. The file will be opened and if append is true  -->
+    <!--                        it will not be truncated                       -->
+    <!--                        maxFileSize: How big before you rotate         -->
+    <!--                        maxBackupIndex: How many backups do you keep?  -->
+    <appender name="MEMORY" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/memory.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="RENDERING" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/rendering.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="WORKFLOW" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/workflow.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="MOUNT_MGR" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/mountmgr.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="EXCEP" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/exception.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="DB_THIN" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/db_manager.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="JSP_REQUEST" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/request.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="AXIS" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/axis.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="SOAP" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/soap.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="QUERY" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/query.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="SECURITY" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/security.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="AUTOLOGIN" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/autologin.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="DBCONTEXT" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/dbcontext.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="CACHE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="<%= @install_path %>/MDMCE/logs/${svc_name}/cache.log"/>
+        <param name="Append" value="true"/>
+        <param name="maxFileSize" value="10MB"/>
+        <param name="maxBackupIndex" value="2"/>
+        <param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+
+    <appender name="MDM_CACHE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="<%= @install_path %>/MDMCE/logs/${svc_name}/mdm_cache.log"/>
+        <param name="Append" value="true"/>
+        <param name="maxFileSize" value="10MB"/>
+        <param name="maxBackupIndex" value="2"/>
+        <param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+
+
+    <appender name="NATIVE_CACHE" class="org.apache.log4j.RollingFileAppender">
+        <param name="File" value="<%= @install_path %>/MDMCE/logs/${svc_name}/native_cache.log"/>
+        <param name="Append" value="true"/>
+        <param name="maxFileSize" value="10MB"/>
+        <param name="maxBackupIndex" value="2"/>
+        <param name="encoding" value="UTF-8"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="JAVA_API_LOGGING" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/javaapi.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+    
+    <appender name="WORKBENCH" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/workbench.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="TRACING" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/trace.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="SERVLET_FILTERS" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/servletfilter.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="REFLECTION" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/reflect.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+	<!-- GDS Logs -->
+    <appender name="MESSAGING" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/gdsmsg.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="GDS" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/gds.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+		<param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="XML_PROCESSOR" class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/xml-processor.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="2" />
+		<param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d [%t] %-5p %c %x- %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="USER-MYORG class="org.apache.log4j.RollingFileAppender">
+        <param name="File"   value="<%= @install_path %>/MDMCE/logs/${svc_name}/cdougan_scripting.log" />
+        <param name="Append" value="true" />
+        <param name="maxFileSize" value="5MB" />
+        <param name="maxBackupIndex" value="2" />
+        <param name="encoding" value="UTF-8" />
+        <layout class="org.apache.log4j.PatternLayout">
+          <param name="ConversionPattern" value="[%d] %c %-5p -- %m%n"/>
+        </layout>
+    </appender>
+
+    <category name="com.ibm.cgd.common.messaging" additivity="false">
+        <priority value="debug" />
+        <appender-ref ref="MESSAGING" />
+    </category>
+    <category name="com.ibm.cgd.demand.messaging" additivity="false">
+        <priority value="debug" />
+        <appender-ref ref="MESSAGING" />
+    </category>
+    <category name="com.ibm.cgd.supply.messaging" additivity="false">
+        <priority value="debug" />
+        <appender-ref ref="MESSAGING" />
+    </category>
+    <category name="com.ibm.cgd" additivity="false">
+        <priority value="debug" />
+        <appender-ref ref="GDS" />
+    </category>
+
+    <category name="com.ibm.ccd.wpc_user_scripting.cdougan" additivity="false">
+      <priority value="debug" />
+      <appender-ref ref="USER-MYORG" />
+    </category>
+	<!-- End of GDS logs -->
+
+
+    <!-- For the com.ibm.ccd.common.db category, you want to have only a few logs kept hence -->
+    <!--  the rollingappender -->
+    <category name="DBManager" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="DB_THIN" />
+    </category>
+
+    <category name="com.ibm.ccd.common.db" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="DB" />
+    </category>
+
+    <!-- i18n_begin by Allis Aug 24, 2004 -->
+    <category name="com.ibm.ccd.common.db.LocalizedShellScriptRunner" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="DB_EXCEP" />
+    </category>
+    <!-- i18n_end -->
+
+    <category name="com.ibm.ccd.common.error.AustinException" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="EXCEP" />
+    </category>
+
+    <category name="com.ibm.pim.common.exceptions" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="EXCEP" />
+    </category>
+
+    <category name="JavaAPI_Exception" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="EXCEP" />
+    </category>
+
+    <category name="jsp_request" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="JSP_REQUEST" />
+    </category>
+
+
+    <category name="JavaAPI" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="JAVA_API_LOGGING" />
+    </category>
+
+    <category name="workbench_log" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="WORKBENCH" />
+    </category>
+
+    <category name="Tracing" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="TRACING" />
+    </category>
+
+    <category name="Reflect" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="REFLECTION" />
+    </category>
+
+    <category name="query_log" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="QUERY" />
+    </category>
+
+    <category name="security_log" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="SECURITY" />
+    </category>
+
+    <category name="com.ibm.ccd.docstore.common.MountMgr" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="MOUNT_MGR" />
+    </category>
+
+    <category name="com.ibm.ccd.content.widgets" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="RENDERING" />
+    </category>
+
+    <category name="com.ibm.ccd.rendering" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="RENDERING" />
+    </category>
+
+    <category name="org.apache.axis" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="AXIS" />
+    </category>
+
+    <category name="com.ibm.ccd.soap" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="SOAP" />
+    </category>
+
+    <category name="com.ibm.ccd.common.util.EncryptionUtil" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="AUTOLOGIN" />
+    </category>
+
+    <category name="com.ibm.ccd.workflow" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="WORKFLOW" />
+    </category>
+
+     <category name="com.ibm.ccd.concurrency" additivity="false">
+         <priority value="info" />
+         <appender-ref ref="DEFAULT" />
+     </category>
+
+    <category name="com.ibm.ccd.perf.common.MemoryMonitor" additivity="false">
+        <priority value="error" />
+        <appender-ref ref="MEMORY" />
+    </category>
+
+    <category name="dbcontext" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="DBCONTEXT" />
+    </category>
+
+
+    <category name="com.ibm.ccd.common.interpreter.engine.ScriptCache" additivity="false">
+        <priority value="info" />
+        <appender-ref ref="DEFAULT" />
+    </category>
+
+    <category name="com.ibm.ccd.common.interpreter.engine.ScriptCompiler" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="DEFAULT"/>
+    </category>
+
+    <category name="com.ibm.ccd.common.cache" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="CACHE"/>
+    </category>
+
+    <category name="com.ibm.ccd.ui.filters" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="SERVLET_FILTERS"/>
+    </category>
+
+    <category name="com.ibm.ccd.common.appsvr.current.admin" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="DEFAULT"/>
+    </category>
+
+
+    <category name="net.sf.ehcache.distribution.MulticastKeepaliveHeartbeatReceiver" additivity="false">
+        <priority value="warn"/>
+        <appender-ref ref="NATIVE_CACHE"/>
+    </category>
+
+
+    <!--  Change this to debug to see detailed info on ehcache  -->
+    <category name="net.sf.ehcache" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="NATIVE_CACHE"/>
+    </category>
+
+
+    <category name="com.ibm.ccd.cache" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="MDM_CACHE"/>
+    </category>  
+
+<!-- Set this to "debug" so that there are messages when there are insufficient number of background threads for conversion to XML during batch jobs-->
+    <category name="com.ibm.ccd.content.common.EntryXmlProcessor" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="XML_PROCESSOR"/>
+    </category>
+
+	<category name="com.ibm.ccd.content.common.ObjectHistoryMigrator" additivity="false">
+        <priority value="debug"/>
+        <appender-ref ref="DEFAULT"/>
+    </category>
+    
+    <category name="com.ibm.ccd.common.context.AustinContext" additivity="false">
+        <priority value="info"/>
+        <appender-ref ref="CONTEXT"/>
+    </category>  
+
+    <!-- ROOT CATEGORY -->
+    <root>
+        <priority value="info"/>
+        <appender-ref ref="DEFAULT"/>
+<!--        <appender-ref ref="STDOUT"/>  -->
+    </root>
+
+</log4j:configuration>

@@ -1,0 +1,16 @@
+{
+  "name": "cdougan-cdougan_tomcat",
+  "version": "0.0.6",
+  "author": "Craig Dougan (MyOrg)",
+  "summary": "Install module for Tomcat (v6 for RHEL6 or v7 for RHEL7)",
+  "license": "BSD 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {
+      "version_requirement": "=> 1.0.0",
+      "name": "puppetlabs-stdlib"
+    }
+  ]
+}

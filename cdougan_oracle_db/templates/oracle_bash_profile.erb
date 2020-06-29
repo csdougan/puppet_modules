@@ -1,0 +1,54 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin:$HOME/bin
+
+export PATH
+
+# User specific environment and startup programs
+export PS1='${USER}'"@"`hostname`":"'${PWD}'" $ "
+
+if [ -s "${MAIL}" ]           # This is at Shellqq startup.  In normal
+then echo "${MAILMSG}"        # operation, the Shell checks
+fi                          # periodically.
+
+umask 022
+
+set -o vi
+tty -s && stty erase ^?
+
+export EDITOR=/usr/bin/vim
+
+export AGENT_BASE_DIR=/u01/app/oracle/agent12c
+export AGENT_INST_HOME=$AGENT_BASE_DIR/agent_inst
+export SBIN_HOME=$AGENT_BASE_DIR/sbin
+export PLUGIN_HOME=$AGENT_BASE_DIR/plugins
+export AGENT_HOME=$AGENT_BASE_DIR/core/12.1.0.5.0
+export PATH=${PATH}:${AGENT_HOME}/bin:${AGENT_HOME}/ccr/bin:/usr/local/bin:/home/oracle/scripts:.
+export ORACLE_HOME=$AGENT_HOME
+
+tty -s &&
+hilite()
+{
+HILITE="\033[1;37m\033[41m"
+RESET="\033[0m"
+
+echo
+echo -e "AGENT_HOME:  ${HILITE}${AGENT_HOME}${RESET}"
+echo -e "AGENT_INST_HOME: ${HILITE}${AGENT_INST_HOME}${RESET}"
+echo -e "Shell is:    ${HILITE}${SHELL}${RESET}"
+echo
+
+alias dir='ls -lrt'
+alias oh='cd $ORACLE_HOME'
+alias scripts='cd /home/oracle/scripts'
+alias sql='cd /home/oracle/sql'
+}
+hilite
+

@@ -1,0 +1,63 @@
+# .bash_profile
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+if [ -s "${MAIL}" ]           # This is at Shell startup.  In normal
+then echo "${MAILMSG}"        # operation, the Shell checks
+fi                          # periodically.
+
+umask 022
+
+set -o vi
+export PS1='${USER}'"@"`hostname`":"'${PWD}'" $ "
+
+echo ${DISPLAY} > ~/.mydisplay
+
+#export EXTENDED_HISTORY=ON
+#alias history="fc -t"
+
+# Oracle variables
+
+export ORACLE_BASE=/u01/app/${USER}
+export ORACLE_HOME=${ORACLE_BASE}/product/<%= @dbversion %>/db
+export ORACLE_CONFIG_HOME=$ORACLE_HOME
+export TNS_ADMIN=${ORACLE_HOME}/network/admin          # NON-RAC
+#export TNS_ADMIN=/u01/grid/11.2.0.3/network/admin    # RAC
+export LD_LIBRARY_PATH=${ORACLE_HOME}/lib:/lib:/usr/li:${LD_LIBRARY_PATH}
+export PATH=${ORACLE_HOME}/bin:${ORACLE_HOME}/ccr/bin:${PATH}:/usr/local/bin:/home/oracle/scripts:$HOME/bin:.
+
+export ORACLE_SID=<%= @oracle_sid %>
+
+tty -s &&
+hilite()
+{
+HILITE="\033[1;37m\033[41m"
+RESET="\033[0m"
+
+echo
+echo -e "ORACLE_BASE:  ${HILITE}${ORACLE_BASE}${RESET}"
+echo -e "ORACLE_HOME:  ${HILITE}${ORACLE_HOME}${RESET}"
+echo -e "ORACLE_SID:   ${HILITE}${ORACLE_SID}${RESET}"
+echo -e
+echo -e "Shell is:     ${HILITE}${SHELL}${RESET}"
+echo
+
+alias pu='ps -ef|grep $USER'
+alias dir='ls -lrt'
+alias sq='sqlplus / as sysdba @$SQLPATH/login.sql'
+alias oh='cd ${ORACLE_HOME}'
+alias scripts='cd /home/oracle/scripts'
+alias sql='cd /home/oracle/sql'
+alias al='cd ${ORACLE_BASE}/diag/rdbms/${ORACLE_SID}/${ORACLE_SID}/trace; ls -lrt alert*' # NON-RAC
+#alias al='cd ${ORACLE_BASE}/diag/rdbms/`echo ${ORACLE_SID}|cut -c 1-$(( ${#ORACLE_SID} - 1 ))`/${ORACLE_SID}/trace; ls -lrt alert*' # RAC
+
+export SQLPATH=/home/oracle/sql
+export EDITOR=vi
+}
+hilite
+

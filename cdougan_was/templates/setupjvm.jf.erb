@@ -1,0 +1,17 @@
+servername="<%= @server_name %>"
+cell_name="<%= @cell_name %>"
+node_name="<%= @node_name %>"
+AdminTask.setVariable('[-scope Cell='+cell_name+',Node='+node_name+' -variableName LOG_ROOT -variableValue <%= @log_directory %>]')
+AdminTask.setVariable('[-scope Cell='+cell_name+',Node='+node_name+' -variableName FFDCLOG -variableValue <%= @log_directory %>/ffdc/]')
+AdminConfig.save()
+jvmConfigId = AdminConfig.getid("/Server:"+servername )
+javaProcDefConfigId = AdminConfig.list('JavaProcessDef', jvmConfigId)
+outlog=AdminConfig.showAttribute(jvmConfigId,'outputStreamRedirect')
+errlog=AdminConfig.showAttribute(jvmConfigId,'errorStreamRedirect')
+AdminConfig.create('Property', javaProcDefConfigId, '[[validationExpression ""] [name "IBM_JAVACOREDIR"] [description ""] [value "/dumps/<%= @server_name %>"] [required "false"]]')
+AdminConfig.create('Property', javaProcDefConfigId, '[[validationExpression ""] [name "IBM_HEAPDUMPDIR"] [description ""] [value "/dumps/<%= @server_name %>"] [required "false"]]')
+AdminConfig.create('Property', javaProcDefConfigId, '[[validationExpression ""] [name "IBM_COREDIR"] [description ""] [value "/dumps/<%= @server_name %>"] [required "false"]]')
+AdminConfig.modify(outlog,'[[rolloverType TIME]]')
+AdminConfig.modify(errlog,'[[rolloverType TIME]]')
+AdminConfig.save()
+

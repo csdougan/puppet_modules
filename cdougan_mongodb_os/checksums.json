@@ -1,0 +1,6 @@
+{
+  "files/mongo.logrotate": "1c96a43248fadb7e27d1e41e793183e6",
+  "files/mongod.conf": "d93c8553bac341f6f8a031e37da1d6e9",
+  "manifests/init.pp": "44f13f0bf0f4103bdddca8ebd07b77a5",
+  "metadata.json": "e64c13adc3a5f4a784967f38459d3aac"
+}

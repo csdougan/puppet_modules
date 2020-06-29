@@ -1,0 +1,16 @@
+{
+  "name": "cdougan-cdougan_nginx",
+  "version": "0.0.3",
+  "author": "Craig Dougan (MyOrg)",
+  "summary": "Installs NGINX",
+  "license": "BSD 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {
+      "version_requirement": "=> 1.0.0",
+      "name": "puppetlabs-stdlib"
+    }
+  ]
+}

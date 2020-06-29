@@ -1,0 +1,13 @@
+{
+  "name": "cdougan-cdougan_was",
+  "version": "0.7.8",
+  "author": "Craig Dougan (MyOrg)",
+  "summary": "Installs IBM WAS",
+  "license": "BSD 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}

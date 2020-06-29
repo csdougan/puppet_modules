@@ -1,0 +1,3 @@
+class custom_resources () {
+
+}

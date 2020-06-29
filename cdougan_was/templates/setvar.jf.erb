@@ -1,0 +1,9 @@
+sname=AdminConfig.list('Server').split('(')[1].split('#')[0];
+pid=AdminConfig.list('Server').split('_')[1].split(')')[0];
+fullid='('+sname+'#JavaProcessDef_'+pid+')';
+AdminConfig.create('Property', fullid, '[[validationExpression ""] [name "IBM_JAVACOREDIR"] [description ""] [value "/dumps/<%= @server_name %>"] [required "false"]]')
+AdminConfig.create('Property', fullid, '[[validationExpression ""] [name "IBM_HEAPDUMPDIR"] [description ""] [value "/dumps/<%= @server_name %>"] [required "false"]]')
+AdminConfig.create('Property', fullid, '[[validationExpression ""] [name "IBM_COREDIR"] [description ""] [value "/dumps/<%= @server_name %>"] [required "false"]]')
+AdminTask.setVariable('[-scope Cell=<%= @cell_name %>,Node=<%= @node_name %> -variableName LOG_ROOT -variableValue <%= @log_directory %>]')
+AdminConfig.save()
+

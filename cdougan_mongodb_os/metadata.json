@@ -1,0 +1,16 @@
+{
+  "name": "cdougan-cdougan_mongodb_os",
+  "version": "0.0.4",
+  "author": "Craig Dougan (MyOrg)",
+  "summary": "Installs MongoDB Open Source - RHSCL version",
+  "license": "BSD 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {
+      "version_requirement": "=> 1.0.0",
+      "name": "puppetlabs-stdlib"
+    }
+  ]
+}

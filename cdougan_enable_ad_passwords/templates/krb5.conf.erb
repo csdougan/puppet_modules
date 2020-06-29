@@ -1,0 +1,47 @@
+[logging]
+ default = FILE:/var/log/krb5libs.log
+ kdc = FILE:/var/log/krb5kdc.log
+ admin_server = FILE:/var/log/kadmind.log
+
+[libdefaults]
+ default_realm = <%= @default_realm %>
+ dns_lookup_realm = false
+ dns_lookup_kdc = false
+ ticket_lifetime = 24h
+ renew_lifetime = 7d
+ forwardable = true
+
+[realms]
+        NET.HOSTA.CO.UK = {
+                kdc = net.somehost.co.uk
+                default_domain = NET.HOSTA.CO.UK
+                admin_server = net.somehost.co.uk
+        }
+        NET.SOMETHING.CO.UK = {
+                kdc = net.something.co.uk
+                default_domain = NET.SOMETHING.CO.UK
+                admin_server = net.something.co.uk
+        }
+        ABC.NET = {
+                kdc = abc.net
+                default_domain = ABC.NET
+                admin_server = abc.net
+        }
+
+[domain_realm]
+ 		NETDOM = NET.HOSTA.CO.UK
+        .NET.HOSTA.CO.UK = NET.HOSTA.CO.UK
+        .NET.SOMETHING.CO.UK = NET.SOMETHING.CO.UK
+        .ABC.NET = ABC.NET
+
+[appdefaults]
+        pam = {
+                ticket_lifetime = 1d
+                renew_lifetime = 1d
+                forwardable = true
+                proxiable = false
+                minimum_uid = 1
+                clockskew = 300
+                external = sshd
+                use_shmem = sshd
+        }

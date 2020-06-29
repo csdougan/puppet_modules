@@ -1,0 +1,42 @@
+** ============================================================================
+**
+** RTCL response file for IBM DB2
+** General Options
+** ---------------
+
+** Only one product can be specified for the following PROD keyword. Specifying
+** multiple products in an installation is not supported.
+PROD                      = <%= @db2_product %>
+
+** The FILE keyword determines the base installation path. If you specify a
+** path that does not yet have this product, this will install a new copy.  If
+** you specify a path that has this product, this will be considered an
+** existing installation intended to install additional functionality.  This is
+** a mandatory keyword for root installation. Remove this keyword for non-root
+** installation. If not removed, its value must be $HOME/sqllib where $HOME
+** represents the HOME directory of the non-root user ID that owns the non-root
+** installation.
+FILE                      = <%= @db2_file %>
+
+** Modify the value of the following LIC_AGREEMENT keyword to indicate that you
+** have read and agreed to the license agreement file in the db2/license
+** directory on the CD.
+LIC_AGREEMENT             = <%= @db2_licence %>         ** ACCEPT or DECLINE
+
+** INSTALL_TYPE keyword is used to select the installation type. If you specify
+** a TYPICAL or a COMPACT install type, no COMP keywords are required. In this
+** case the installer will select the appropriate components for you.  All COMP
+** keywords are ignored by the installer unless the INSTALL_TYPE is set  to
+** CUSTOM. If you select the CUSTOM install type, then ensure that you enable
+** all of the COMP keywords that are required for your database environment.
+**
+** Note: The install type is not related to the language selection.
+** ----------------------------------------------------------------------------
+INSTALL_TYPE              = <%= @db2_install_type %>         ** TYPICAL, COMPACT, CUSTOM
+
+** (Valid for root installation only) Global Secure ToolKit
+** --------------------------------------------------------
+** The Global Secure ToolKit will be automatically installed for you. If you
+** don't want to install it, set the value to NO.
+INSTALL_ENCRYPTION       = <%= @db2_encryption %>             ** YES or NO.Valid for root installation only.
+

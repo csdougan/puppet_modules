@@ -1,0 +1,5 @@
+DEFINE TOPIC(<%= @mq_outbound_topic_name %>) +
+  TOPICSTR('<%= @mq_outbound_topic_string %>') +
+  PUB(ENABLED) +
+  SUB(ENABLED) +
+  REPLACE;

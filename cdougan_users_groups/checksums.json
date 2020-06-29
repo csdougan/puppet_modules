@@ -1,0 +1,7 @@
+{
+  "manifests/init.pp": "7de7caa28a454ef7ec46b96d17f17483",
+  "manifests/manage_usergroups.pp": "73da21bfa8db88697e8002f130e11f4a",
+  "manifests/manage_users.pp": "fc862fa6b7f19aa1ad9793dbe07d4268",
+  "metadata.json": "14e3bf6eee7ef6fc21b6a5e829e6dac4",
+  "tests/init.pp": "a7131afffcff20e33025da4c43c3adac"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "cdougan-patch_via_crontab",
+  "version": "1.0.0",
+  "author": "cdougan",
+  "summary": "Patches Red Hat servers with Security Fixes via Crontab (/etc/cron.d) entry",
+  "license": "Apache 2.0",
+  "source": "ssh://git@abc-wscm-sourcerepo.somehost.co.uk:7999/a0470-pup/cdougan-patch_via_crontab.git",
+  "project_page": "https://abc-wscm-sourcerepo.somehost.co.uk/projects/A0470-PUP/repos/cdougan-patch_via_crontab",
+  "issues_url": "https://abc-wscm-sourcerepo.somehost.co.uk/projects/A0470-PUP/repos/cdougan-patch_via_crontab",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}

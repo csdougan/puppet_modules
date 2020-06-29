@@ -1,0 +1,13 @@
+{
+  "name": "cdougan-custom_resources",
+  "version": "1.0.10",
+  "author": "Craig Dougan",
+  "summary": "A collection of custom resources",
+  "license": "Apache 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ]
+}

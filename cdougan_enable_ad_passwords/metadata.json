@@ -1,0 +1,16 @@
+{
+  "name": "cdougan-cdougan_enable_ad_passwords",
+  "version": "0.0.4",
+  "author": "Craig Dougan (MyOrg)",
+  "summary": "Enable AD Passwords for RHEL Servers via KRB5",
+  "license": "BSD 2.0",
+  "source": "",
+  "project_page": null,
+  "issues_url": null,
+  "dependencies": [
+    {
+      "version_requirement": "=> 1.0.0",
+      "name": "puppetlabs-stdlib"
+    }
+  ]
+}

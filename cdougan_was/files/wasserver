@@ -1,0 +1,65 @@
+#!/bin/bash
+# chkconfig: 2345 99 1
+
+[[ -e "/data/WebSphere/AppServer/properties/profileRegistry.xml" ]] && basedir="/data/WebSphere"
+[[ -e "/opt/IBM/WebSphere/AppServer/properties/profileRegistry.xml" ]] && basedir="/opt/IBM/WebSphere"
+was_type="$(grep "<id>" ${basedir}/AppServer/properties/version/WAS.product | awk -F">" '{print $2}' | awk -F"<" '{print $1}')"
+was_version="$(grep "<version>" ${basedir}/AppServer/properties/version/WAS.product | awk -F">" '{print $2}' | awk -F"<" '{print $1}')"
+registryfile="${basedir}/AppServer/properties/profileRegistry.xml"
+profileName="$(egrep -v "<[/]|.profiles>" $registryfile|grep -vi dmgr|grep -vi "profileTemplates/management"| awk -F= '{print $4}'|awk -F\" '{print $2}')"
+[[ $(grep -i dmgr $registryfile | wc -l) -gt 0 ]] && dmgrPresent="true" || dmgrPresent="false"
+if [[ -e ${basedir}/profiles ]]; then
+  profiledir=${basedir}/profiles
+elif [[ -e ${basedir}/AppServer/profiles ]]; then
+  profiledir=${basedir}/AppServer/profiles
+else
+  exit 1
+fi
+serverName=$(ls ${profiledir}/${profileName}/servers/|grep -v nodeagent)
+scriptdir="${profiledir}/${profileName}/bin"
+dmgrscriptdir="${basedir}/AppServer/bin"
+deploy_agent_pid="$( ps -ef | grep deploy_agent| grep [w]asuser|awk '{print $2}')"
+
+case "$1" in
+  status)
+    ps -ef | grep ${profileName} | grep [j]ava > /dev/null 2>&1
+    returncode=$?
+    if [[ returncode -eq 0 ]]; then
+      echo "WAS Server is running." 
+      echo "WAS Type     : ${was_type}"
+      echo "WAS Version  : ${was_version}"
+      [[ $dmgrPresent == "true" ]] && echo "Dmgr Present : ${dmgrPresent}" 
+      echo "Profilename  : ${profileName}"
+      echo "Servername   : ${serverName}" 
+    else
+      echo "WAS ${was_type} doesn't appear to be running.  Can't find a process for ${profileName}"
+    fi
+    exit $returncode 
+    ;;
+  start)
+    [[ $dmgrPresent == "true" ]] && sudo -u wasuser bash -c "${dmgrscriptdir}/startManager.sh"
+    [[ $was_type == "ND" ]] && sudo -u wasuser bash -c "${scriptdir}/startNode.sh"
+    sudo -u wasuser bash -c "${scriptdir}/startServer.sh ${serverName}"
+    touch /var/lock/subsys/wasserver;;
+  stop)
+
+    [[ $dmgrPresent == "true" ]] && sudo -u wasuser bash -c "${dmgrscriptdir}/stopManager.sh"
+    sudo -u wasuser bash -c "${scriptdir}/stopServer.sh ${serverName}"
+    [[ $was_type == "ND" ]] && sudo -u wasuser bash -c "${scriptdir}/stopNode.sh"
+    [[ $deploy_agent_pid != "" ]] && kill -9 $deploy_agent_pid
+    rm -rf /var/lock/subsys/wasserver;;
+  restart)
+    [[ $dmgrPresent == "true" ]] && sudo -u wasuser bash -c "${dmgrscriptdir}/stopManager.sh"
+    sudo -u wasuser bash -c "${scriptdir}/stopServer.sh ${serverName}"
+    [[ $was_type == "ND" ]] && sudo -u wasuser bash -c "${scriptdir}/stopNode.sh"
+    [[ $deploy_agent_pid != "" ]] && kill -9 $deploy_agent_pid
+    rm -rf /var/lock/subsys/wasserver
+    [[ $dmgrPresent == "true" ]] && sudo -u wasuser bash -c "${dmgrscriptdir}/startManager.sh"
+    [[ $was_type == "ND" ]] && sudo -u wasuser bash -c "${scriptdir}/startNode.sh"
+    sudo -u wasuser bash -c "${scriptdir}/startServer.sh ${serverName}"
+    touch /var/lock/subsys/wasserver;;
+  *)
+    echo "Not supported"
+    ;;
+esac
+
